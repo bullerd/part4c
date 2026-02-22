@@ -6,13 +6,16 @@ const supertest = require("supertest");
 const app = require("../app");
 const helper = require("./test_helper");
 const Note = require("../models/note");
+const User = require("../models/user");
 
 const api = supertest(app);
 
-describe("when there is initially some notes saved", () => {
+describe("when there are initially some notes saved", () => {
   beforeEach(async () => {
     await Note.deleteMany({});
+    await User.deleteMany({});
     await Note.insertMany(helper.initialNotes);
+    await User.insertMany(helper.initialUsers);
   });
 
   test("notes are returned as json", async () => {
@@ -63,22 +66,37 @@ describe("when there is initially some notes saved", () => {
 
   describe("addition of a new note", () => {
     test("succeeds with valid data", async () => {
+      const usersAtStart = await helper.usersInDb();
+      const initialUser = usersAtStart[0];
+
       const newNote = {
         content: "async/await simplifies making async calls",
         important: true,
+        userId: initialUser.id,
       };
 
-      await api
+      const returnedNote = await api
         .post("/api/notes")
         .send(newNote)
         .expect(201)
         .expect("Content-Type", /application\/json/);
 
+      // we need to test that we concatenated this note to the list of notes associated with this user
+      // and the userid is associated with the note
+
       const notesAtEnd = await helper.notesInDb();
+      const usersAtEnd = await helper.usersInDb();
       assert.strictEqual(notesAtEnd.length, helper.initialNotes.length + 1);
 
       const contents = notesAtEnd.map((n) => n.content);
       assert(contents.includes("async/await simplifies making async calls"));
+      assert.strictEqual(returnedNote.body.user, initialUser.id);
+
+      const user = usersAtEnd.find((u) => u.id === initialUser.id);
+      //let's convert id Objects to strings for comparison
+      assert(
+        user.notes.map((id) => id.toString()).includes(returnedNote.body.id),
+      );
     });
 
     test("fails with status code 400 if data invalid", async () => {

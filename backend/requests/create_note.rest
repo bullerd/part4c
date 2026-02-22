@@ -1,8 +1,9 @@
 //POST http://localhost:3001/api/notes
-POST http://localhost:3001/api/notes/
+POST http://gmktec.server:3001/api/notes/
 Content-Type: application/json
 
 {
-    "content": "abc",
-    "important": true   
+    "content": "Can we add a second new note to our modified schema?",
+    "important": true,
+    "userId": "699b38c54985a9ae2f20f3f9"
 }
