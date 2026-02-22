@@ -1,0 +1,39 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": false
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": true
+    },
+    {
+      "id": "4",
+      "content": "Axios is a cool library",
+      "important": true
+    },
+    {
+      "id": "6e7c",
+      "content": "dum de dum",
+      "important": false
+    },
+    {
+      "id": "e238",
+      "content": "dog's rule",
+      "important": true
+    },
+    {
+      "id": "538f",
+      "content": "asdfdasf",
+      "important": false
+    }
+  ]
+}
