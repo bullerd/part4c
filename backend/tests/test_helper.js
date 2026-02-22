@@ -13,7 +13,7 @@ const initialNotes = [
 ];
 
 const initialUsers = [
-  { username: "bullerd", name: "David Buller", password: "testpassword" },
+  { username: "root", name: "Me", password: "testpassword" },
 ];
 
 const nonExistingId = async () => {
