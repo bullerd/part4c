@@ -6,7 +6,10 @@ const logger = require("../utils/logger");
 notesRouter.get("/", async (request, response, next) => {
   logger.info("handling /api/notes");
   try {
-    const notes = await Note.find({});
+    const notes = await Note.find({}).populate("user", {
+      username: 1,
+      name: 1,
+    });
     response.json(notes);
   } catch (error) {
     next(error);
